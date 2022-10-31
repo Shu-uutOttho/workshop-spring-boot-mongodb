@@ -10,7 +10,7 @@ import com.chaldeas.workshopmongo.domain.User;
 import com.chaldeas.workshopmongo.repository.UserRepository;
 
 @Configuration
-public class Instatiation implements CommandLineRunner{
+public class Instantiation implements CommandLineRunner{
 
 	@Autowired
 	private UserRepository userRepository;
