@@ -1,5 +1,6 @@
 package com.chaldeas.workshopmongo.resources;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,4 +41,18 @@ public class PostResource {
 		List<Post> list = service.searchingTitle(text);
 		return ResponseEntity.ok().body(list);
 	}
+	
+	@RequestMapping(value = "/fullsearch", method = RequestMethod.GET)
+	public ResponseEntity<List<Post>> searchOnmanyFields(
+			@RequestParam(value = "text", defaultValue = " ") String text,
+			@RequestParam(value = "minDate", defaultValue = " ") String minDate,
+			@RequestParam(value = "maxDate", defaultValue = " ") String maxDate){
+		text = URL.decodeParam(text);
+		Date min = URL.dateConvert(minDate, new Date (0L));
+		Date max = URL.dateConvert(maxDate, new Date ());
+		List<Post> list = service.searchOnFields(text, min, max);
+		return ResponseEntity.ok().body(list);
+	}
+	
+	
 }

@@ -1,5 +1,6 @@
 package com.chaldeas.workshopmongo.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -11,6 +12,9 @@ import com.chaldeas.workshopmongo.domain.Post;
 @Repository
 public interface PostRepository extends MongoRepository<Post, String> {
 
+	@Query("{ $and: [ { date: { $gt: ?1 } }, { date: { $lte: ?2 } } , { $or: [ { 'title': { $regex: ?0, $options: 'i' } }, { 'body': { $regex: ?0, $options: 'i' } }, { 'comments.text': { $regex: ?0, $options: 'i' } } ] } ] }")
+	List<Post> searchOnManyFields(String Text, Date min, Date max);
+	
 	List<Post> findByTitleContainingIgnoreCase(String text);
 
 	@Query("{ 'title': { $regex: ?0, $options: 'i' } }")
